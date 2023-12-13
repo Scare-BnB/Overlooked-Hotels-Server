@@ -9,6 +9,11 @@ async function connectToDatabase(){
     }
 }
 
+async function disconnectFromDatabase(){
+    await mongoose.connection.close();
+}
+
 module.exports = {
-    connectToDatabase
+    connectToDatabase,
+    disconnectFromDatabase
 }
