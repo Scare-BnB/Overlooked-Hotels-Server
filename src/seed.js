@@ -12,7 +12,6 @@ connectToDatabase().then(async () => {
         {
         name: "The Grand Lodge",
         costPerNight: 120
-
     });
 
     await newAccommodation.save().then(() => {

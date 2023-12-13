@@ -23,6 +23,10 @@ const UserSchema = new Schema({
         type: Number,
         min: 10,
         max: 10
+    },
+    admin: {
+        type: Boolean,
+        default: false
     }
 });
 
