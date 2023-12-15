@@ -45,7 +45,6 @@ router.post("/", async (request, response) => {
 // Delete Accommodation by ID (admin only)
 router.delete("/:id", async (request, response) => {
     try {
-        console.log("hello");
         await Accommodation.findByIdAndDelete(request.params.id);
         return response.status(200).send("Accommodation Deleted!");
     } catch (error) {

@@ -13,7 +13,10 @@ app.get("/", (request, response) => {
 });
 
 const AccommodationRouter = require('./controllers/AccommodationController');
-app.use ('/locations', AccommodationRouter);
+app.use('/locations', AccommodationRouter);
+
+const ReviewRouter = require('./controllers/ReviewController');
+app.use('/reviews', ReviewRouter);
 
 module.exports = {
     app
