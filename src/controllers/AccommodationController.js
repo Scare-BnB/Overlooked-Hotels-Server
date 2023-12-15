@@ -5,50 +5,52 @@ const router = express.Router();
 // List ALL Accommodations
 router.get("/all", async (request, response) => {
     
-    let result = await Accommodation.find({});
+    let locations = await Accommodation.find({})
+    .catch(error => {return error});
     
-    response.json({
-        locations: result
-    });
+    response.json(locations);
 })
 
-// Find ONE Accommodation by NAME - work in progress
-router.get("/:name", async (request, response) => {
+// Find ONE Accommodation by ID - work in progress
+router.get("/:id", async (request, response) => {
     
-    let result = null;
+    let location = await Accommodation.findById(request.params.id)
+    .catch(error => {return error});
     
-    response.json({
-        location: result
-    });
+    response.json(location);
 })
 
-// Update Accommodation by NAME
-router.patch("/:name", async (request, response) => {
-
-    let result = null;
-
-    response.json({
-        location: result
-    });
+// Update Accommodation by ID (admin only)
+router.patch("/:id", async (request, response) => {
+    try {
+        let result = await Accommodation.findByIdAndUpdate(
+            request.params.id, 
+            request.body)
+        response.json(result);
+    } catch (error) {
+        return response.status(500).send(error);
+    }
 })
 
-// Create Accommodation?
+// Create Accommodation (admin only)
 router.post("/", async (request, response) => {
-    let result = await Accommodation.create(request.body).catch(error => {return error});
+    let result = await Accommodation.create(request.body)
+    .catch(error => {return error});
 
     response.json({
         location: result
     });
 })
 
-// Delete Accommodation by NAME
-router.delete("/:name", async (request, response) => {
-    
-    let result = null;
-
-    response.json({
-        location: result
-    });
+// Delete Accommodation by ID (admin only)
+router.delete("/:id", async (request, response) => {
+    try {
+        console.log("hello");
+        await Accommodation.findByIdAndDelete(request.params.id);
+        return response.status(200).send("Accommodation Deleted!");
+    } catch (error) {
+        return response.status(500).send(error);
+    }
 })
 
 module.exports = router;

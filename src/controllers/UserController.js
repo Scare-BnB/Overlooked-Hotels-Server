@@ -14,7 +14,16 @@ router.post("/", async (request, response) => {
 })
 
 // Login to an Account
+router.get("/", async (request, response) => {
+
+})
 
 // Edit information on an Account
+router.patch("/", async (request, response) => {
+
+})
 
 // Delete Account
+router.delete("/", async (request, response) => {
+    
+})
