@@ -18,6 +18,9 @@ app.use('/locations', AccommodationRouter);
 const ReviewRouter = require('./controllers/ReviewController');
 app.use('/reviews', ReviewRouter);
 
+const UserRouter = require('./controllers/UserController');
+app.use('/users', UserRouter);
+
 module.exports = {
     app
 }

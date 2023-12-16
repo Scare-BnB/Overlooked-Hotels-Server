@@ -13,8 +13,23 @@ router.post("/", async (request, response) => {
     });
 })
 
+router.post("/login", async (request, resopnse) => {
+
+})
+
+router.get("/verify", async (request, response) => {
+
+})
+
+router.get("/regenerate", async (request, response) => {
+
+})
+
+// Get All Users
+router.get("/",)
+
 // Login to an Account
-router.get("/", async (request, response) => {
+router.get("/:id", async (request, response) => {
 
 })
 
@@ -27,3 +42,5 @@ router.patch("/", async (request, response) => {
 router.delete("/", async (request, response) => {
     
 })
+
+module.exports = router;
