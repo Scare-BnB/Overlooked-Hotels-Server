@@ -2,6 +2,7 @@ const { User } = require('../models/UserModel');
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const { comparePassword } = require('../functions/userAuthFunctions');
 
 // Create a NEW Account
 router.post("/", async (request, response) => {
@@ -11,9 +12,20 @@ router.post("/", async (request, response) => {
     response.json(newUser);
 })
 
-router.post("/login", async (request, resopnse) => {
-    let targetUser = await User.findOne({username: request.body.email}).catch(error => {return error});
+router.post("/login", async (request, response) => {
+
+    let targetUser = await User.findOne({
+        username: request.body.email
+    }).catch(error => {return error});
+
     let isPasswordCorrect = comparePassword(request.body.password, targetUser.password);
+
+    let updatedJwt = generateJwt(targetUser._id.toString());
+
+    response.json({
+        jwt: updatedJwt
+    });
+
 })
 
 router.get("/verify", async (request, response) => {
