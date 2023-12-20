@@ -6,8 +6,8 @@ const { comparePassword, generateJwt } = require('../functions/userAuthFunctions
 
 // Create a NEW Account
 router.post("/", async (request, response) => {
-    
-    let newUser = await User.create(request.body).catch(error => {return error});
+    let newUser = await User.create(request.body)
+    .catch(error => {return error});
 
     response.json(newUser);
 })
@@ -41,7 +41,6 @@ router.get("/regenerate", async (request, response) => {
 
 // Get All Users
 router.get("/", async (request, response) => {
-    
     let users = await User.find({});
     
     response.json(users);
@@ -56,12 +55,24 @@ router.get("/:id", async (request, response) => {
 
 // Edit information on an Account
 router.patch("/", async (request, response) => {
-
+    try {
+        let result = await User.findByIdAndUpdate(
+            request.params.id, 
+            request.body)
+        response.json(result);
+    } catch (error) {
+        return response.status(500).send(error);
+    }
 })
 
 // Delete Account
 router.delete("/", async (request, response) => {
-    
+    try {
+        await User.findByIdAndDelete(request.params.id);
+        return response.status(200).send("User Deleted!");
+    } catch (error) {
+        return response.status(500).send(error);
+    }
 })
 
 module.exports = router;

@@ -23,10 +23,10 @@ router.get("/:id", async (request, response) => {
 // Update Accommodation by ID (admin only)
 router.patch("/:id", async (request, response) => {
     try {
-        let result = await Accommodation.findByIdAndUpdate(
+        let updatedLocation = await Accommodation.findByIdAndUpdate(
             request.params.id, 
             request.body)
-        response.json(result);
+        response.json(updatedLocation);
     } catch (error) {
         return response.status(500).send(error);
     }
@@ -34,12 +34,10 @@ router.patch("/:id", async (request, response) => {
 
 // Create Accommodation (admin only)
 router.post("/", async (request, response) => {
-    let result = await Accommodation.create(request.body)
+    let newLocation = await Accommodation.create(request.body)
     .catch(error => {return error});
 
-    response.json({
-        location: result
-    });
+    response.json(newLocation);
 })
 
 // Delete Accommodation by ID (admin only)

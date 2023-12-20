@@ -12,7 +12,7 @@ router.get("/all", async (request, response) => {
 })
 
 // GET ALL Reviews by Location
-router.get("/locations/:id/all", async (request, response) => {
+router.get("/:id/all", async (request, response) => {
     
     let reviews = await Review.findById()
     .catch(error => {return error});
