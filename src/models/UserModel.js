@@ -40,7 +40,7 @@ UserSchema.pre(
         this.password = hash;
         next();
     }
-)
+);
 
 const User = mongoose.model('User', UserSchema);
 

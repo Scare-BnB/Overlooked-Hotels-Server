@@ -9,13 +9,12 @@ async function comparePassword(plaintextPassword, hashedPassword){
     return doesPasswordMatch;
 }
 
-async function generateJwt(userId){
+function generateJwt(userId){
+
     let newJwt = jwt.sign(
-        userId, 
-        "insert secret key here", 
-        {
-            expiresIn: "2d"
-        }
+        {userId}, 
+        process.env.JWT_KEY, 
+        {expiresIn: "2d"}
     );
 
     return newJwt;

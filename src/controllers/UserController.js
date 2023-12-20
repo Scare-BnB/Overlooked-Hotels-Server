@@ -2,7 +2,7 @@ const { User } = require('../models/UserModel');
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const { comparePassword } = require('../functions/userAuthFunctions');
+const { comparePassword, generateJwt } = require('../functions/userAuthFunctions');
 
 // Create a NEW Account
 router.post("/", async (request, response) => {
@@ -15,17 +15,20 @@ router.post("/", async (request, response) => {
 router.post("/login", async (request, response) => {
 
     let targetUser = await User.findOne({
-        username: request.body.email
+        email: request.body.email
     }).catch(error => {return error});
 
     let isPasswordCorrect = comparePassword(request.body.password, targetUser.password);
 
-    let updatedJwt = generateJwt(targetUser._id.toString());
+    if (!isPasswordCorrect){
+        response.status(403).json({error: "You are not authorized to do this."});
+    }
 
+    let updatedJwt = generateJwt(targetUser._id);
+    
     response.json({
         jwt: updatedJwt
     });
-
 })
 
 router.get("/verify", async (request, response) => {
@@ -46,7 +49,9 @@ router.get("/", async (request, response) => {
 
 // Login to an Account
 router.get("/:id", async (request, response) => {
+    let result = await User.findOne({_id: request.params.id});
 
+    response.json({result});
 })
 
 // Edit information on an Account
