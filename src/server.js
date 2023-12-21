@@ -21,6 +21,9 @@ app.use('/reviews', ReviewRouter);
 const UserRouter = require('./controllers/UserController');
 app.use('/users', UserRouter);
 
+const BookingRouter = require('./controllers/BookingController');
+app.use('/bookings', BookingRouter);
+
 module.exports = {
     app
 }

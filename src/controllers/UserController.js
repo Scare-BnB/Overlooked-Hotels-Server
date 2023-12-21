@@ -2,13 +2,10 @@ const { User } = require("../models/UserModel");
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
-const {
-  comparePassword,
-  generateJwt,
-} = require("../functions/userAuthFunctions");
+const { generateJwt } = require("../functions/userAuthFunctions");
 
 // Create a NEW Account
-router.post("/", async (request, response) => {
+router.post("/register", async (request, response) => {
   let newUser = await User.create(request.body).catch((error) => {
     return error;
   });
@@ -22,10 +19,6 @@ router.post("/login", async (request, response) => {
       email: request.body.email,
     });
     const isPasswordCorrect = await bcrypt.compare(request.body.password, targetUser.password);
-    // let isPasswordCorrect = comparePassword(
-    //   request.body.password,
-    //   targetUser.password
-    // );
 
     if (!isPasswordCorrect) {
       return response
