@@ -4,7 +4,6 @@ const router = express.Router();
 
 // List ALL Accommodations
 router.get("/all", async (request, response) => {
-    
     let locations = await Accommodation.find({})
     .catch(error => {return error});
     
@@ -13,7 +12,6 @@ router.get("/all", async (request, response) => {
 
 // Find ONE Accommodation by ID - work in progress
 router.get("/:id", async (request, response) => {
-    
     let location = await Accommodation.findById(request.params.id)
     .catch(error => {return error});
     

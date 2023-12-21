@@ -4,7 +4,6 @@ const router = express.Router();
 
 // Get ALL Reviews
 router.get("/all", async (request, response) => {
-    
     let reviews = await Review.find({})
     .catch(error => {return error});
     
@@ -13,7 +12,6 @@ router.get("/all", async (request, response) => {
 
 // GET ALL Reviews by Location
 router.get("/:id/all", async (request, response) => {
-    
     let reviews = await Review.findById()
     .catch(error => {return error});
     
@@ -22,7 +20,6 @@ router.get("/:id/all", async (request, response) => {
 
 // Create Review By User
 router.post("/", async (request, response) => {
-
     let review = await Review.create(request.body)
     .catch(error => {return error});
 
