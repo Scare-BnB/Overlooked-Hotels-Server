@@ -34,7 +34,6 @@ router.post("/", async (request, response) => {
     response.json(booking);
 })
 
-
 // Update Booking
 router.patch("/:id", async (request, response) => {
     try {
