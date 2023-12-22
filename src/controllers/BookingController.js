@@ -2,6 +2,7 @@ const { totalCost } = require('../functions/userBookingFunctions');
 const { Booking } = require('../models/BookingModel');
 const express = require('express');
 const router = express.Router();
+const checkLogin = require('../functions/authMiddleware');
 
 // Get ALL Bookings (admin only)
 router.get("/all", async (request, response) => {
@@ -28,9 +29,11 @@ router.get("/:id", async (request, response) => {
 })
 
 // Create Booking
-router.post("/", async (request, response) => {
+router.post("/", checkLogin, async (request, response) => {
     try {
-        let booking = await Booking.create(request.body);
+        const { location, startDate, endDate } = request.body;
+
+        let booking = await Booking.create({ user: request.userId, location, startDate, endDate });
         return response.json(booking);
     } catch (error) {
         return response.status(500).send(error);
