@@ -2,7 +2,7 @@ const { totalCost } = require('../functions/userBookingFunctions');
 const { Booking } = require('../models/BookingModel');
 const express = require('express');
 const router = express.Router();
-const checkLogin = require('../functions/authMiddleware');
+const { checkLogin } = require('../functions/authMiddleware');
 
 // Get ALL Bookings (admin only)
 router.get("/all", async (request, response) => {
