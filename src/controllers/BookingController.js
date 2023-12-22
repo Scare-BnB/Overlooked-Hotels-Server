@@ -1,3 +1,4 @@
+const { totalCost } = require('../functions/userBookingFunctions');
 const { Booking } = require('../models/BookingModel');
 const express = require('express');
 const router = express.Router();
@@ -28,10 +29,12 @@ router.get("/user/:id", async (request, response) => {
 
 // Create Booking
 router.post("/", async (request, response) => {
-    let booking = await Booking.create(request.body)
-    .catch(error => {return error});
-
-    response.json(booking);
+    try {
+        let booking = await Booking.create(request.body);
+        return response.json(booking);
+    } catch (error) {
+        return response.status(500).send(error);
+    }
 })
 
 // Update Booking

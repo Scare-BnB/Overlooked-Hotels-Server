@@ -1,8 +1,10 @@
 const { User } = require('../models/UserModel');
+const jwt = require('jsonwebtoken');
 
 const requestLogin = (request, response, next) => {
     const isUser = request.User;
     if (isUser){
+        const token = request.header
         next();
     } else {
         response.status(401).send("Not an authorized user.")

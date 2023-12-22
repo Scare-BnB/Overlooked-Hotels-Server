@@ -3,8 +3,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const BookingSchema = new Schema({
-    place: {
-        type: String,
+    location: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Accommodation',
+        required: true
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true
     },
     startDate: {
@@ -17,7 +23,8 @@ const BookingSchema = new Schema({
     },
     cost: {
         type: Number,
-        required: true
+        required: true,
+        default: 0
     }
 });
 

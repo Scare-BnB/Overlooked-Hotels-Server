@@ -4,9 +4,13 @@ const Schema = mongoose.Schema;
 
 const ReviewSchema = new Schema({
     booking: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    }, 
     comment: {
         type: String,
         required: true

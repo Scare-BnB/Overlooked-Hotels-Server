@@ -2,6 +2,7 @@ const { User } = require('../models/UserModel');
 const request = require('supertest');
 const { response } = require('express');
 
+
 describe("Get existing user", () => {
     test("GET route gets existing user data", () => {
         const getUser = request(User).get("/:id");

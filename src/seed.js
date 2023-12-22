@@ -9,27 +9,53 @@ connectToDatabase().then(async () => {
 
     console.log("Creating seed data");
 
-    let newUser = new User(
+    let newAdminUser = new User(
         {
-            firstName: "Jack",
-            lastName: "Torrance",
-            email: "jack.t@email.com",
-            password: "123456",
-            admin: true
+                firstName: "Jack",
+                lastName: "Torrance",
+                email: "jack.t@email.com",
+                password: "123456",
+                admin: true
         }
     )
-    let newAccommodation = new Accommodation(
+    
+    let newUser = new User(
         {
-        name: "The Grand Lodge",
-        costPerNight: 120
-    });
+                firstName: "Annie",
+                lastName: "Wilkes",
+                email: "a.wilkes@email.com",
+                password: "password1",
+                admin: false
+        }
+    )
+
+    await newAdminUser.save().then(() => {
+        console.log(`${newAdminUser.firstName} is in the database.`);
+    })
 
     await newUser.save().then(() => {
         console.log(`${newUser.firstName} is in the database.`);
     })
+        
+    const locations = [
+        {
+            name: "The Grand Lodge",
+            costPerNight: 120
+        },
+        {
+            name: "The Wilkes Cabin",
+            costPerNight: 80
+        },
+        {
+            name: "The Fairvale Motel",
+            costPerNight: 100
+        }
+    ];
 
-    await newAccommodation.save().then(() => {
-        console.log(`${newAccommodation.name} is in the database.`);
-    })
-
+    async function storeLocations(){
+        const locationList = await Accommodation.insertMany(locations);
+        console.log("Accommodations are in the database.");
+        return locationList;
+    }
+    storeLocations();
 })
