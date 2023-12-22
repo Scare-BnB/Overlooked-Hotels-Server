@@ -20,8 +20,8 @@ router.get("/user/all", async (request, response) => {
 })
 
 // Get ONE Booking By USER
-router.get("/user/:id", async (request, response) => {
-    let booking = await Booking.findOne({_id: request.params.id})
+router.get("/:id", async (request, response) => {
+    let booking = await Booking.findOne({_id:request.params.id})
     .catch(error => {return error});
 
     response.json(booking);
