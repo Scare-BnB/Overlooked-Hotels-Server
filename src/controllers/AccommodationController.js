@@ -1,6 +1,7 @@
 const { Accommodation } = require('../models/AccommodationModel');
 const express = require('express');
 const router = express.Router();
+const { checkAdmin } = require('../functions/authMiddleware');
 
 // List ALL Accommodations
 router.get("/all", async (request, response) => {
@@ -19,7 +20,7 @@ router.get("/:id", async (request, response) => {
 })
 
 // Update Accommodation by ID (admin only)
-router.patch("/:id", async (request, response) => {
+router.patch("/:id", checkAdmin, async (request, response) => {
     try {
         let updatedLocation = await Accommodation.findByIdAndUpdate(
             request.params.id, 
@@ -31,7 +32,7 @@ router.patch("/:id", async (request, response) => {
 })
 
 // Create Accommodation (admin only)
-router.post("/", async (request, response) => {
+router.post("/", checkAdmin, async (request, response) => {
     let newLocation = await Accommodation.create(request.body)
     .catch(error => {return error});
 
@@ -39,7 +40,7 @@ router.post("/", async (request, response) => {
 })
 
 // Delete Accommodation by ID (admin only)
-router.delete("/:id", async (request, response) => {
+router.delete("/:id", checkAdmin, async (request, response) => {
     try {
         await Accommodation.findByIdAndDelete(request.params.id);
         return response.status(200).send("Accommodation Deleted!");

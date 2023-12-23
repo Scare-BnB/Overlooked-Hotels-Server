@@ -1,24 +1,58 @@
 const { totalCost } = require('../functions/userBookingFunctions');
 const { Booking } = require('../models/BookingModel');
+const { User } = require('../models/UserModel');
+const { Accommodation } = require('../models/AccommodationModel');
 const express = require('express');
 const router = express.Router();
-const { checkLogin } = require('../functions/authMiddleware');
+const { checkLogin, checkAdmin } = require('../functions/authMiddleware');
 
 // Get ALL Bookings (admin only)
-router.get("/all", async (request, response) => {
-    let bookings = await Booking.find({})
-    .catch(error => {return error});
+router.get("/all", checkAdmin, async (request, response) => {
+    try {
+        const bookings = [];
+        let bookingResponse = await Booking.find({}); // await Booking.find({ user: request.userId });
 
-    response.json(bookings);
+        for (let booking of bookingResponse) {
+            const user = await User.findOne({ _id: booking.user });
+            const location = await Accommodation.findOne({ _id: booking.location });
+
+            const startDate = new Date(booking.startDate);
+            const endDate = new Date(booking.endDate);
+            const timeDifference = endDate.getTime() - startDate.getTime();
+            const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+            bookings.push({
+                user: {
+                    _id: user._id,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                },
+                location: {
+                    _id: location._id,
+                    name: location.name,
+                    costPerNight: location.costPerNight,
+                },
+                startDate: startDate,
+                endDate: endDate,
+                cost: daysDifference * location.costPerNight,
+            });
+        }
+        
+        return response.json(bookings);
+    } catch (error) {
+        console.log(error);
+        return response.status(500).send(error);
+    }
 })
 
 // Get ALL Bookings By USER
-router.get("/user/all", async (request, response) => {
-    let bookings = await Booking.findById()
-    .catch(error => {return error});
+// router.get("/all", async (request, response) => {
+//     let bookings = await Booking.findById()
+//     .catch(error => {return error});
 
-    response.json(bookings);
-})
+//     response.json(bookings);
+// })
 
 // Get ONE Booking By USER
 router.get("/:id", async (request, response) => {

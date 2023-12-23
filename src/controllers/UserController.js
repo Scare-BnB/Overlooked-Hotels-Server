@@ -30,15 +30,13 @@ router.post("/login", async (request, response) => {
 
     return response.json({
       jwt: updatedJwt,
+      admin: targetUser.admin,
     });
+
   } catch (error) {
     return response.status(401).send("Invalid Email or Password.");
   }
 });
-
-router.get("/verify", async (request, response) => {});
-
-router.get("/regenerate", async (request, response) => {});
 
 // Get All Users
 router.get("/", async (request, response) => {

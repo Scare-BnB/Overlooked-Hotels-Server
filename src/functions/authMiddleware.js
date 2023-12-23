@@ -4,7 +4,11 @@ require('dotenv').config();
 
 const decodeToken = (request) => {
     try {
-        const token = request.header['Authorization'];
+        let token = request.headers['authorization'];
+
+        if (token.startsWith('Bearer ')) {
+            token = token.split('Bearer ')[1];
+        }
 
         if (!token) {
             return null;
@@ -38,7 +42,7 @@ const checkAdmin = async (request, response, next) => {
     const user = await User.findOne({ _id: request.userId });
 
     if (!user || user.admin === false) {
-        return response.statusCode(403).send("Admin access only.");
+        return response.status(403).send("Admin access only.");
     }
 
     next();
