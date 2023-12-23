@@ -53,7 +53,7 @@ router.get("/:id", async (request, response) => {
 });
 
 // Edit information on an Account
-router.patch("/", async (request, response) => {
+router.patch("/:id", async (request, response) => {
   try {
     let result = await User.findByIdAndUpdate(request.params.id, request.body);
     response.json(result);
@@ -63,7 +63,7 @@ router.patch("/", async (request, response) => {
 });
 
 // Delete Account
-router.delete("/", async (request, response) => {
+router.delete("/:id", async (request, response) => {
   try {
     await User.findByIdAndDelete(request.params.id);
     return response.status(200).send("User Deleted!");

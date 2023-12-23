@@ -46,14 +46,6 @@ router.get("/all", checkAdmin, async (request, response) => {
     }
 })
 
-// Get ALL Bookings By USER
-// router.get("/all", async (request, response) => {
-//     let bookings = await Booking.findById()
-//     .catch(error => {return error});
-
-//     response.json(bookings);
-// })
-
 // Get ONE Booking By USER
 router.get("/:id", async (request, response) => {
     let booking = await Booking.findOne({_id:request.params.id})

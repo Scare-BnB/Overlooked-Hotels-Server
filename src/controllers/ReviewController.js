@@ -1,7 +1,6 @@
 const { Review } = require('../models/ReviewModel');
 const express = require('express');
 const router = express.Router();
-const { requestLogin } = require('../functions/authMiddleware');
 
 // Get ALL Reviews
 router.get("/all", async (request, response) => {
@@ -48,7 +47,5 @@ router.delete("/:id", async (request, response) => {
         return response.status(500).send(error);
     }
 })
-
-// Delete Review By Admin?
 
 module.exports = router;
