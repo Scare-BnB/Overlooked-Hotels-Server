@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 
 const Schema = mongoose.Schema;
 
+// creates
 const UserSchema = new Schema({
     firstName: {
         type: String
@@ -31,6 +32,7 @@ const UserSchema = new Schema({
     }
 });
 
+// pre-hook modifies hashes user password on save instance
 UserSchema.pre(
     'save',
     async function (next) {

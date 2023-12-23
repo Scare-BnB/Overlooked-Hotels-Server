@@ -1,11 +1,17 @@
+// import user model
 const { User } = require("../models/UserModel");
+// import express library
 const express = require("express");
+// make instance of router
 const router = express.Router();
+// import salt and hash methods
 const bcrypt = require("bcryptjs");
+// import function to generate token
 const { generateJwt } = require("../functions/userAuthFunctions");
 
 // Create a NEW Account
 router.post("/register", async (request, response) => {
+  // create a new user with body data, store in db
   let newUser = await User.create(request.body).catch((error) => {
     return error;
   });
@@ -15,17 +21,19 @@ router.post("/register", async (request, response) => {
 
 router.post("/login", async (request, response) => {
   try {
+    // fetch userId
     let targetUser = await User.findOne({
       email: request.body.email,
     });
+    // check if user password matches the registered password to userId
     const isPasswordCorrect = await bcrypt.compare(request.body.password, targetUser.password);
-
+    // if the user password is not the password registered return error
     if (!isPasswordCorrect) {
       return response
         .status(403)
         .json({ error: "You are not authorized to do this." });
     }
-
+    // create token for userId
     let updatedJwt = generateJwt(targetUser._id);
 
     return response.json({
@@ -40,21 +48,16 @@ router.post("/login", async (request, response) => {
 
 // Get All Users
 router.get("/", async (request, response) => {
+  // fetch all user data in the database
   let users = await User.find({});
 
   response.json(users);
 });
 
-// Login to an Account
-router.get("/:id", async (request, response) => {
-  let result = await User.findOne({ _id: request.params.id });
-
-  response.json({ result });
-});
-
 // Edit information on an Account
 router.patch("/:id", async (request, response) => {
   try {
+    // fetch user by id and update body data
     let result = await User.findByIdAndUpdate(request.params.id, request.body);
     response.json(result);
   } catch (error) {
@@ -65,6 +68,7 @@ router.patch("/:id", async (request, response) => {
 // Delete Account
 router.delete("/:id", async (request, response) => {
   try {
+    // fetch user by id and remove from db
     await User.findByIdAndDelete(request.params.id);
     return response.status(200).send("User Deleted!");
   } catch (error) {

@@ -1,4 +1,6 @@
+// import express library
 const express = require('express');
+// import eors package
 const cors = require('cors');
 
 const app = express();
